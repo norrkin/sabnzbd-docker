@@ -1,0 +1,33 @@
+sudo: required
+services:
+  - docker
+
+language: python
+
+env:
+  global:
+  - GOSS_VERSION=0.3.6
+  - GOSS_PATH=/usr/local/bin/goss
+  - secure: "XZvlvapQF0/wVbvpZbB0Ob0h9div25q0Nt3Z838eGYkaUFUl1pbCTwx0blTAkvAlN7HHXbacgtCEXMZ9AcgWOkcSuj+5CsPamUtqcC+ubk0UziTpHQ0+yAbJj+dRM+HMtMpSfEolKZDU0SEQY+sjMrsqmsz1l7U7dj1GZ9nn1xvCBZ2XsXHCZB2pC0gg94rrnSylcYhZgu5O9DGUDUPxGYuQQKtrbk3/VBtdYRz9d8P0UXxX3aDQ04xpBcfOFMuU5AvaYfiiUo48Il2a+zaEcAXhfCUEfQaUrWLTcVAyIjlThTbdr2B/ysT9no5pjKApjro2nHt2BkYgZBtTOp0LygCHMJrpqotZxu46TjVHIup78Z8rQgHPgVe3AXPN8ltbMEWyp0wM7zpi/mwuis8p5nFyrXGo4XbR1otes2iIqlwEY6zJ2Hdqbmi43bSbe33rYk1o2CHdD2OzrOn/WtyJseGRDa9msMchrmI6AWZLUOHo3LOxg0Q/oWggV6B23DvIdILqsaCvNWa67GfUA8HyQUEdJJ3wDYqm2dYLBeMFEVxJGxympYK/iX2v5PLjFy48dXjb6zLm9d9DMbxW7jWGZvizr0vH6AbeKcwkbbb+Hl0li2YFt0V92P9/YhpYamkMsav4+EbGOJski2v7vyEwytsOH5sNhcl9fMSmjxVS304="
+  - secure: "Naz0cTawZdwmGcTWnjEwZPiI3JKC8y3O5/vc43BVZlGQAHCjoWZP9i2RF8S4g+J8uT289wDcovunY0vMe7uU6t5n5emW64ZjDb08Cg6DCP/T1fAObixZMc9W2aw/DsMg5V2+Ke/L0HwZUIHha88rbu4vYR8+jZZ6X0Og4PeScUldkLzq7egGwEGYgqETxckEpSzeUFuHGzo29iqpi3f0daTFDZEgSI24ZaWqoYmKWJrSWCjhmtl8g47of8VtA8AWH7sWAgcBeth/7n458fzuTdWwRonAYYYfvrae0Dqej/PDn682ZfgBRWH7WgMJYx3oXS9EBgNRAhBbICypPbhoXIFS2siKSgKTITBzfTy2X0v9TxZl1t/ilVg5Xexam7lUoFUZW9wIdfU5KJFp9TFALDpQ1sPNbfu00Vs9uhU0IfbcwLpAvL4wtm8vCSVRPlTDa0xwbWumolPa5WKambuY/1vKu6N4hCDgFFreyt4jP6lmWP3I9IndeAoHnQiEnyI0GE+mkHVKLUjhYdmvwKEJdGbNfqYqzV9IPXWrX64BnOUlYO/UdIJ9IzenzgKRdESF8FvGSde5G5w9aEjcZhbcU+b5ybK1kbqIrZyLUfUD7O3pjZat74wJpd/yTwjZvc22IMbLSKgvbUd1eHbB3ze1xp6qmNmlNMXaK4pXCv4A7Bk="
+
+before_install:
+  - sudo curl -L https://github.com/aelsabbahy/goss/releases/download/v$GOSS_VERSION/goss-linux-amd64 -o /usr/local/bin/goss
+  - sudo chmod +rx /usr/local/bin/goss
+  - sudo curl -L https://raw.githubusercontent.com/aelsabbahy/goss/v$GOSS_VERSION/extras/dgoss/dgoss -o /usr/local/bin/dgoss
+  - sudo chmod +rx /usr/local/bin/dgoss
+
+install: true
+
+
+script:
+  - ./test/test.sh
+
+
+after_success:
+  - echo "$DOCKER_PASS" | docker login --username "$DOCKER_USER" --password-stdin
+  - docker build -t norrkin/sabnzbd . 
+  - docker push norrkin/sabnzbd
+
+notifications:
+  webhooks: https://hooks.microbadger.com/images/norrkin/sabnzbd/YXTJmVeooKmQWUjjkSLM57GvHzg=
