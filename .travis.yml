@@ -31,3 +31,6 @@ after_success:
 
 notifications:
   webhooks: https://hooks.microbadger.com/images/norrkin/sabnzbd/YXTJmVeooKmQWUjjkSLM57GvHzg=
+  email:
+    on_success: never
+    on_failure: always
