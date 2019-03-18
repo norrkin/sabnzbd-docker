@@ -5,7 +5,7 @@ FROM debian:stretch
 LABEL maintainer "mark <norrkin@icloud.com>"
 
 # Define what release we want to use
-ENV SABNZBD_VERSION=2.3.7
+ENV SABNZBD_VERSION=2.3.8
 ENV TEST=$(<VERSION.txt)
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
