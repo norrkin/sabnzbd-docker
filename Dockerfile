@@ -5,7 +5,7 @@ FROM debian:buster
 LABEL maintainer "mark <norrkin@icloud.com>"
 
 # Define what release we want to use
-ENV SABNZBD_VERSION=3.0.0
+ENV SABNZBD_VERSION=3.0.1
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
