@@ -20,7 +20,11 @@ jobs:
     - name: Docker login
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build docker image
-      run: docker build --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG} .
+      run: docker build -t sabnzbd .
+    - name Tag images
+      run:  |
+          docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
+          docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:latest
     - name: Push docker image
       run:  |
           docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
