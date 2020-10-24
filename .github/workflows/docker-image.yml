@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+    TAG: testing    
+
 jobs:
 
   build:
@@ -18,8 +21,8 @@ jobs:
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build docker image
       env:
-        TAG: "testing"
-      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${{ env.TAG }}
-    - name: Push
+        TAG: testing
+      run: docker build --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG} .
+    - name: Push docker image
       run:  |
-          docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${{ env.TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
