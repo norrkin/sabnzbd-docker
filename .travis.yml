@@ -15,20 +15,20 @@ env:
  # SAB VERSION
   - TAG=3.1.0
 
-before_install:
-  - sudo curl -L https://github.com/aelsabbahy/goss/releases/download/v$GOSS_VERSION/goss-linux-amd64 -o /usr/local/bin/goss
-  - sudo chmod +rx /usr/local/bin/goss
-  - sudo curl -L https://raw.githubusercontent.com/aelsabbahy/goss/v$GOSS_VERSION/extras/dgoss/dgoss -o /usr/local/bin/dgoss
-  - sudo chmod +rx /usr/local/bin/dgoss
+# before_install:
+#   - sudo curl -L https://github.com/aelsabbahy/goss/releases/download/v$GOSS_VERSION/goss-linux-amd64 -o /usr/local/bin/goss
+#   - sudo chmod +rx /usr/local/bin/goss
+#   - sudo curl -L https://raw.githubusercontent.com/aelsabbahy/goss/v$GOSS_VERSION/extras/dgoss/dgoss -o /usr/local/bin/dgoss
+#   - sudo chmod +rx /usr/local/bin/dgoss
 
-install: true
+# install: true
 
 
 # script:
 #   - ./test/test.sh
 
 
-after_success:
+before_install:
   - echo "$DOCKER_PASS" | docker login --username "$DOCKER_USER" --password-stdin
   - docker build -t $IMAGE_NAME .
   - docker tag $IMAGE_NAME $IMAGE_NAME:latest
