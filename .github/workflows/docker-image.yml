@@ -19,7 +19,7 @@ jobs:
     - name: Build docker image
       env:
         TAG: "testing"
-      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${{ env.TAG }}
     - name: Push
       run:  |
-          docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
+          docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${{ env.TAG }}
