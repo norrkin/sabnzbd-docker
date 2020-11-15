@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/norrkin/sabnzbd-docker.svg?branch=master)](https://travis-ci.org/norrkin/sabnzbd-docker) [![](https://images.microbadger.com/badges/image/norrkin/sabnzbd.svg)](https://microbadger.com/images/norrkin/sabnzbd "Get your own image badge on microbadger.com")
+![Docker Image CI](https://github.com/norrkin/sabnzbd-docker/workflows/Docker%20Image%20CI/badge.svg) [![](https://images.microbadger.com/badges/image/norrkin/sabnzbd.svg)](https://microbadger.com/images/norrkin/sabnzbd "Get your own image badge on microbadger.com")
 
 ## SABnzbd-docker
 
