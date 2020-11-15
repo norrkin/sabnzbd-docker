@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 env:
-    TAG: 3.1.0
+    TAG: 3.1.1
 
 jobs:
 
@@ -21,11 +21,11 @@ jobs:
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build docker image
       run: docker build -t sabnzbd .
-    - name: Tag images
+    - name: Tag docker images
       run:  |
           docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
           docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:latest
-    - name: Push docker image
+    - name: Push docker images
       run:  |
           docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
           docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:latest
