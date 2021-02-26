@@ -20,6 +20,7 @@ RUN chmod 755 /usr/bin/entrypoint.sh && \
     curl -o /tmp/sabnzbd.tar.gz https://codeload.github.com/sabnzbd/sabnzbd/tar.gz/${SABNZBD_VERSION} && \
     tar xzf /tmp/sabnzbd.tar.gz && \
     mv sabnzbd-* sabnzbd && \
+    pip3 install --upgrade pip && \
     pip3 install -r sabnzbd/requirements.txt --upgrade --no-cache-dir && \
     git clone https://github.com/jkansanen/par2cmdline-mt.git /tmp/par2cmdline-mt && \
     cd /tmp/par2cmdline-mt && \
