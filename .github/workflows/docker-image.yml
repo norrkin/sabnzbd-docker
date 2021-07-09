@@ -26,6 +26,7 @@ jobs:
       with:
         input: sabnzbd.tar
         format: 'template'
+        severity: HIGH,CRITICAL
         template: '@/contrib/sarif.tpl'
         output: 'trivy-results.sarif'
 
