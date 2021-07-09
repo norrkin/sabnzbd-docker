@@ -1,4 +1,4 @@
-name: SABnzbd-Pipeline
+name: sabnzbd-pipeline
 
 on:
   - push
@@ -16,21 +16,25 @@ jobs:
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build docker image
       run: docker build -t sabnzbd .
-      
-    - name: Tag docker images
+       
+    - name: Create tar for trivy
       run:  |
-          docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
-          docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:latest
-          
+          docker save -o sabnzbd.tar sabnzbd
+
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: sabnzbd
+        image-ref: sabnzbd.tar
         format: 'table'
         exit-code: '1'
         ignore-unfixed: true
         vuln-type: 'os,library'
         severity: HIGH,CRITICAL
+
+    - name: Tag docker images
+      run:  |
+          docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
+          docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:latest
         
     - name: Push docker images
       run:  |
