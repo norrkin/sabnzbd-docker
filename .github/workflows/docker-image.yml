@@ -25,9 +25,8 @@ jobs:
       uses: aquasecurity/trivy-action@master
       with:
         input: sabnzbd.tar
-        format: 'template'
+        format: 'sarif'
         severity: HIGH,CRITICAL
-        template: '@/contrib/sarif.tpl'
         output: 'trivy-results.sarif'
 
     - name: Upload Trivy scan results to GitHub Security tab
