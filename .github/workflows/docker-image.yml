@@ -4,7 +4,7 @@ on:
   - push
 
 env:
-    TAG: 3.5.0
+    TAG: 3.5.3
 
 jobs:
   build:

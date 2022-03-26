@@ -1,11 +1,11 @@
 # Base image to be used
-FROM debian:buster
+FROM debian:bullseye
 
 # Tweaked by me
 LABEL maintainer "mark <norrkin@icloud.com>"
 
 # Define what release we want to use
-ENV SABNZBD_VERSION=3.5.0
+ENV SABNZBD_VERSION=3.5.3
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
