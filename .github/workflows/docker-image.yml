@@ -1,45 +1,44 @@
 name: sabnzbd-pipeline
 
-on:
-  - push
+on: [push]
 
 env:
-    TAG: 3.5.3
+  TAG: 3.6.0
 
 jobs:
   build:
     name: App and Container Build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Docker login
-      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-    - name: Build docker image
-      run: docker build -t sabnzbd .
-       
-    - name: Create tar for trivy
-      run:  |
-          docker save -o sabnzbd.tar sabnzbd
+      - uses: actions/checkout@v2
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build docker image
+        run: docker build -t sabnzbd .
 
-    - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
-      with:
-        input: sabnzbd.tar
-        format: 'sarif'
-        severity: HIGH,CRITICAL
-        output: 'trivy-results.sarif'
+      - name: Create tar for trivy
+        run: |
+            docker save -o sabnzbd.tar sabnzbd
 
-    - name: Upload Trivy scan results to GitHub Security tab
-      uses: github/codeql-action/upload-sarif@v1
-      with:
-        sarif_file: 'trivy-results.sarif'
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: sabnzbd.tar
+          format: 'sarif'
+          severity: HIGH,CRITICAL
+          output: 'trivy-results.sarif'
 
-    - name: Tag docker images
-      run:  |
-          docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
-          docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:latest
-        
-    - name: Push docker images
-      run:  |
-          docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
-          docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:latest
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Tag docker images
+        run: |
+            docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
+            docker tag sabnzbd ${{ secrets.DOCKER_USERNAME }}/sabnzbd:latest
+
+      - name: Push docker images
+        run: |
+            docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:${TAG}
+            docker push ${{ secrets.DOCKER_USERNAME }}/sabnzbd:latest
