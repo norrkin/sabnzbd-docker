@@ -3,7 +3,7 @@ name: sabnzbd-pipeline
 on: [push]
 
 env:
-  TAG: 4.0.0
+  TAG: 4.0.3
 
 jobs:
   build:
